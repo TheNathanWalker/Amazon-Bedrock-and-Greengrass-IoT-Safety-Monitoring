@@ -1,0 +1,42 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Connect"
+      ],
+      "Resource": [
+        "arn:aws:iot:*:*:client/${iot:Connection.Thing.ThingName}"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Subscribe"
+      ],
+      "Resource": [
+        "arn:aws:iot:*:*:topicfilter/client/${iot:Connection.Thing.Attributes[companyId]}/+/result",
+        "arn:aws:iot:*:*:topicfilter/client/${iot:Connection.Thing.Attributes[companyId]}/#"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Receive"
+      ],
+      "Resource": [
+        "arn:aws:iot:*:*:topic/client/${iot:Connection.Thing.Attributes[companyId]}/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "greengrass:*"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}

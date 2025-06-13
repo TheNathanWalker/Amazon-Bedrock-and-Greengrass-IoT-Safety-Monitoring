@@ -1,0 +1,66 @@
+{
+    "RecipeFormatVersion": "2020-01-25",
+    "ComponentName": "analyze",
+    "ComponentVersion": "1.0.0",
+    "ComponentDescription": "Component to listen for trigger MQTT message and sent JPG to S3",
+    "ComponentPublisher": "Nathan Walker",
+    "ComponentDependencies": {
+      "aws.greengrass.TokenExchangeService": {
+        "VersionRequirement": "^2.0.0",
+        "DependencyType": "HARD"
+      }
+    },
+    "Manifests": [
+      {
+        "Platform": {
+          "os": "linux"
+        },
+        "Artifacts": [
+          {
+            "URI": "s3://YOUR-ARTIFACT-BUCKET/analyze.zip",
+            "Unarchive": "ZIP"
+          }
+        ],
+        "Lifecycle": {
+            "Install": {
+              "RequiresPrivilege": true,
+              "Script": "cd {artifacts:decompressedPath}/analyze\npython3 -m venv venv\n. venv/bin/activate\npip3 install -r requirements.txt"
+            },
+            "Run": {
+              "RequiresPrivilege": true,
+              "Script": "cd {artifacts:decompressedPath}/analyze\n. venv/bin/activate\npython3 -u analyze.py 2>&1"
+            }
+          }
+        }
+    ],
+    "ComponentConfiguration": {
+      "DefaultConfiguration": {
+        "accessControl": {
+          "aws.greengrass.ipc.mqttproxy": {
+            "com.example.RtspAnalyzer:mqttproxy:1": {
+              "policyDescription": "Allows access to publish/subscribe to MQTT topics",
+              "operations": [
+                "aws.greengrass#SubscribeToIoTCore"
+              ],
+              "resources": [
+                "*"
+              ]
+            }
+          },
+          "aws.greengrass.TokenExchangeService": {
+            "com.example.RtspAnalyzer:tes:1": {
+              "policyDescription": "Allows access to AWS services via TES",
+              "operations": [
+                "aws.greengrass#GetToken",
+                "aws.greengrass#GetThingName"
+              ],
+              "resources": [
+                "*"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+  

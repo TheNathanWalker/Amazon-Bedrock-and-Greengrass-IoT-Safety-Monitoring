@@ -1,0 +1,10 @@
+{
+    "aws_iot": {
+        "endpoint": "a2b6yj7d4cj1gp-ats.iot.us-east-1.amazonaws.com",
+        "cert_filepath": "./9971-mqtt-client-certificate.pem.crt",
+        "pri_key_filepath": "./9971-mqtt-client-private.pem.key",
+        "ca_filepath": "./AmazonRootCA1.pem",
+        "region": "us-east-1",
+        "qos": 1
+    }
+}

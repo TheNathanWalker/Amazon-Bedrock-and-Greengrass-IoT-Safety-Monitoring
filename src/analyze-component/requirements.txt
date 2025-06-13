@@ -1,0 +1,3 @@
+awsiotsdk
+opencv-python
+boto3
